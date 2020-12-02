@@ -42,12 +42,24 @@ public class Main {
         } catch (Exception ex) {
             System.out.println("error" + ex);
         }
-        try {
-            URI r = URI.create(uri);
-            session = container.connectToServer(Client.class, r);
-        } catch (DeploymentException | IOException e) {
-            e.printStackTrace();
+        while (true) {
+            try {
+                URI r = URI.create(uri);
+                session = container.connectToServer(Client.class, r);
+                break;
+            } catch (DeploymentException | IOException e) {
+                System.out.println("连接失败");
+                try {
+                    // 睡眠
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                continue;
+//                e.printStackTrace();
+            }
         }
+
     }
 
     public static void aciton() {
